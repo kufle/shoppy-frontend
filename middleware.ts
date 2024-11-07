@@ -11,6 +11,16 @@ export function middleware(request: NextRequest) {
     ) {
         return Response.redirect(new URL("/auth/login", request.url));
     }
+
+    //jika user masuk ke url /login atau /register 
+    const isUnAuthorizedRoute = unauthorizedRoutes.includes(request.nextUrl.pathname);
+    if (isUnAuthorizedRoute) {
+        //jika user sudah login maka arahkan ke halaman home
+        if (auth) {
+            return Response.redirect(new URL("/", request.nextUrl));
+        }
+        return null;
+    }
 }
 
 export const config = {
